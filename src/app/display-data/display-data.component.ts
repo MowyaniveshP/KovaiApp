@@ -7,39 +7,35 @@ import { EventModel } from '../models/eventModel.model';
   templateUrl: './display-data.component.html',
   styleUrls: ['./display-data.component.css']
 })
-export class DisplayDataComponent {
+export class DisplayDataComponent implements OnInit {
 
-  constructor(public collectDisplayService: CollectDisplayService) {
-    collectDisplayService.getEvents();
-    this.events = this.collectDisplayService.events;
-    if (this.events.length > 0) {
-      this.dataExists = true;
-    }
+  constructor(public collectDisplayService: CollectDisplayService) { 
   }
-
-  // eventById!: EventModel;
   refreshClick: boolean = false;
   collectClick: boolean = false;
   dataExists!: boolean;
   events: EventModel[] = [];
+  
+  ngOnInit(): void {
+    this.checkDatataExists();
+  }
 
   onRefreshClick() {
-    this.collectDisplayService.getEvents();
-    this.events = this.collectDisplayService.events;
-    console.log(this.events);
     this.refreshClick = true;
-    if (this.events.length > 0) {
-      this.dataExists = true;
-    }
+    this.checkDatataExists();
   }
 
   onCollectClick() {
-    this.collectDisplayService.saveEventsFromURL();
     this.collectClick = true;
+    this.collectDisplayService.saveEventsFromURL();
+    this.checkDatataExists();
+  }
+  checkDatataExists() {
     this.collectDisplayService.getEvents();
     this.events = this.collectDisplayService.events;
     if (this.events.length > 0) {
       this.dataExists = true;
     }
   }
+  
 }

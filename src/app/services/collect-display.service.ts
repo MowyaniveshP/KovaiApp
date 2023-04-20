@@ -13,15 +13,10 @@ export class CollectDisplayService {
   address: Addresses = new Addresses;
   baseUrl: string = this.address.localHostURL;
   events: EventModel[] = [];
-  // event: EventModel = new EventModel;
 
   getEvents() {
     this.http.get(this.baseUrl).subscribe(res => this.events = res as EventModel[]);    
   }
-
-  // getEvent(id:number) {
-  //   this.http.get(this.baseUrl + id).subscribe(res => this.event = res as EventModel);    
-  // }
 
   saveEventsFromURL() {
     this.http.post(this.baseUrl, "").subscribe();    
