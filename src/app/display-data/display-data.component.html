@@ -7,13 +7,13 @@
   <button class="btn btn-success" (click)="onRefreshClick()">Reresh</button>
 </div><br>
 
-<div class="container-sm" style="text-align: center;" *ngIf="collectClick && !dataExists && !refreshClick">
+<div class="container-sm" style="text-align: center;" *ngIf="collectClick && !dataExists && dataCollected">
   <div class="alert alert-success" role="alert">
     <h2>Data collected from source</h2>
   </div>
 </div>
 
-<div class="container-sm" style="text-align: center;" *ngIf="collectClick && dataExists && !refreshClick">
+<div class="container-sm" style="text-align: center;" *ngIf="collectClick && dataExists">
   <div class="alert alert-warning" role="alert">
     <h2>Data already exists</h2>
   </div>
@@ -44,8 +44,14 @@
   </div>
 </div>
 
-<div class="container-sm" style="text-align: center;" *ngIf="refreshClick && !dataExists && !collectClick">
+<div class="container-sm" style="text-align: center;"
+  *ngIf="(refreshClick || collectClick) && !dataExists && errorCode===0">
   <div class="alert alert-danger" role="alert">
-    <h2>No data to display/ Server Error</h2>
+    <h2>Something went wrong!</h2>
+  </div>
+</div>
+<div class="container-sm" style="text-align: center;" *ngIf="refreshClick && !dataExists && errorCode===400">
+  <div class="alert alert-danger" role="alert">
+    <h2>Bad Request / No Data to display</h2>
   </div>
 </div>

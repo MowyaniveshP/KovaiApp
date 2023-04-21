@@ -9,15 +9,18 @@ import { EventModel } from '../models/eventModel.model';
 })
 export class DisplayDataComponent implements OnInit {
 
-  constructor(public collectDisplayService: CollectDisplayService) { 
+  constructor(public collectDisplayService: CollectDisplayService) {
   }
   refreshClick: boolean = false;
   collectClick: boolean = false;
   dataExists!: boolean;
   events: EventModel[] = [];
-  
+  errorCode: number = 0;
+  dataCollected: boolean = false;
+
   ngOnInit(): void {
     this.checkDatataExists();
+    this.errorCode = 0;
   }
 
   onRefreshClick() {
@@ -28,6 +31,7 @@ export class DisplayDataComponent implements OnInit {
   onCollectClick() {
     this.collectClick = true;
     this.collectDisplayService.saveEventsFromURL();
+    this.dataCollected = this.collectDisplayService.dataCollected;
     this.checkDatataExists();
   }
   checkDatataExists() {
@@ -36,6 +40,8 @@ export class DisplayDataComponent implements OnInit {
     if (this.events.length > 0) {
       this.dataExists = true;
     }
+    if (this.collectDisplayService.errorCode) {
+      this.errorCode = this.collectDisplayService.errorCode;
+    }
   }
-  
 }
